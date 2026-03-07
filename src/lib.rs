@@ -3,3 +3,4 @@ pub mod protocol;
 pub mod server;
 pub mod threaded;
 pub mod types;
+pub mod verify;

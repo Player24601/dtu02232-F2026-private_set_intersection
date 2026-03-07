@@ -15,7 +15,7 @@ fn time_protocol(X: Vec<Element>, Y: Vec<Element>) -> f64 {
   let elapsed = start.elapsed();
 
   assert!(
-    verify_intersection(X_copy, Y_Copy, I),
+    verify_intersection(&X_copy, &Y_Copy, &I),
     "PSI protocol returned incorrect intersection"
   );
 

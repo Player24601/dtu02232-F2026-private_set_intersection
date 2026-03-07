@@ -7,7 +7,7 @@ pub fn verify_intersection(
   I: &Vec<Element>,
 ) -> bool {
   let X_set: HashSet<Element> = X.iter().cloned().collect();
-  let Y_set: HashSet<Element> = Y.iter().clones().collect();
+  let Y_set: HashSet<Element> = Y.iter().cloned().collect();
 
   let true_intersection: HashSet<Element> =
     X_set.intersection(&Y_set).cloned().collect();
