@@ -1,5 +1,5 @@
 use psi::types::Element;
-use ps::threaded;
+use psi::threaded;
 
 
 use std::time::Instant;
