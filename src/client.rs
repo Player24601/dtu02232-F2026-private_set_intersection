@@ -25,7 +25,7 @@ impl ClientStateInit {
   pub fn respond(self, message: Message1) -> (ClientState2, Message2) {
     let mut rng = OsRng;
 
-    let m = message.L.len();
+    let m = self.Y.len();
 
     let beta: Vec<Scalar> = (0..m).map(|_| Scalar::random(&mut rng)).collect();
 

@@ -14,5 +14,10 @@ pub fn verify_intersection(
 
   let I_set: HashSet<Element> = I.iter().cloned().collect();
 
+  if true_intersection != I_set {
+    println!("Expected intersection: {:?}", true_intersection);
+    println!("Returned intersection: {:?}", I_set);
+  }
+
   true_intersection == I_set
 }
