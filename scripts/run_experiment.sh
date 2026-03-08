@@ -5,22 +5,24 @@ set -e
 
 cd $HOME/dev/DTU/AC/mpc-project/
 
+EXPERIMENT_NAME=psi
+
 # Determine git commit hash (short form)
 COMMIT=$(git rev-parse --short HEAD)
 
 # Ensure output directories exist
-mkdir -p experiments/psi/outputs
-mkdir -p experiments/psi/errors
-mkdir -p experiments/psi/bin
+mkdir -p experiments/$EXPERIMENT_NAME/outputs
+mkdir -p experiments/$EXPERIMENT_NAME/errors
+mkdir -p experiments/$EXPERIMENT_NAME/bin
 
 # Build release binary
 cargo build --release --bin benchmark
 
 # Copy binary with commit-tagged name
-cp target/release/benchmark experiments/psi/bin/benchmark_$COMMIT
+cp target/release/benchmark experiments/$EXPERIMENT_NAME/bin/benchmark_$COMMIT
 
 # Export commit so the job script can use it
 export COMMIT
 
 # Submit job array
-bsub < scripts/benchmark_job.sh
+bsub -env "COMMIT=$COMMIT" < scripts/benchmark_job.sh

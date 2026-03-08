@@ -5,9 +5,9 @@
 #BSUB -R "span[hosts=1]"
 #BSUB -R "rusage[mem=4GB]"
 #BSUB -W 01:00
-#BSUB -o $HOME/dev/DTU/AC/mpc-project/experiments/psi/outputs/%J_%I.out
-#BSUB -e $HOME/dev/DTU/AC/mpc-project/experiments/psi/errors/%J_%I.err
+#BSUB -o /zhome/52/3/214404/dev/DTU/AC/mpc-project/experiments/psi/outputs/%J_%I.out
+#BSUB -e /zhome/52/3/214404/dev/DTU/AC/mpc-project/experiments/psi/errors/%J_%I.err
 
 cd $HOME/dev/DTU/AC/mpc-project/
 
-echo "$COMMIT, $(./experiments/psi/benchmark_$COMMIT $LSB_JOBINDEX)"
+echo "$COMMIT,$(./experiments/psi/bin/benchmark_$COMMIT $LSB_JOBINDEX)"
