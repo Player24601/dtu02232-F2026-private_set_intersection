@@ -2,7 +2,14 @@ use psi::threaded::run_threaded;
 use psi::types::Element;
 use psi::verify::verify_intersection;
 
+use std::env;
 use std::time::Instant;
+
+use rand::rngs::StdRng;
+use rand::seq::SliceRandom;
+use rand::{RngCore, SeedableRng};
+
+const REPS: usize = 10;
 
 fn time_protocol(X: Vec<Element>, Y: Vec<Element>) -> f64 {
   let X_copy = X.clone();
@@ -20,4 +27,80 @@ fn time_protocol(X: Vec<Element>, Y: Vec<Element>) -> f64 {
   );
 
   elapsed.as_secs_f64()
+}
+
+fn random_element(rng: &mut StdRng) -> Element {
+  let mut element = [0u8; 64];
+  rng.fill_bytes(&mut element);
+
+  element
+}
+
+fn random_vector(size: usize, rng: &mut StdRng) -> Vec<Element> {
+  (0..size).map(|_| random_element(rng)).collect()
+}
+
+fn shuffle_together(
+  a: Vec<Element>,
+  b: Vec<Element>,
+  rng: &mut StdRng,
+) -> Vec<Element> {
+  let mut v: Vec<Element> = a.into_iter().chain(b.into_iter()).collect();
+
+  v.shuffle(rng);
+
+  v
+}
+
+fn main() {
+  // BEGIN AI-GENERATED (ChatGPT)
+  // CLI arguments: x_size y_size intersection_size seed
+  // the X, Y, I sets are based on seeded arguments, but the protocol is not!
+  let args: Vec<String> = env::args().collect();
+
+  if args.len() != 5 {
+    eprintln!("Usage: benchmark <x_size> <y_size> <intersection_size> <seed>");
+    std::process::exit(1);
+  }
+
+  let x_size: usize = args[1].parse().expect("invalid x_size");
+  let y_size: usize = args[2].parse().expect("invalid y_size");
+  let intersection_size: usize =
+    args[3].parse().expect("invalid intersection_size");
+  let seed: u64 = args[4].parse().expect("invalid seed");
+
+  // END AI-GENERATED
+
+  let mut rng = StdRng::seed_from_u64(seed);
+
+  let I = random_vector(intersection_size, &mut rng);
+
+  let X = shuffle_together(
+    I.clone(),
+    random_vector(x_size - intersection_size, &mut rng),
+    &mut rng,
+  );
+
+  let Y = shuffle_together(
+    I.clone(),
+    random_vector(y_size - intersection_size, &mut rng),
+    &mut rng,
+  );
+
+  let times: Vec<f64> = (0..REPS)
+    .map(|_| time_protocol(X.clone(), Y.clone()))
+    .collect();
+
+  let mean = times.iter().sum::<f64>() / REPS as f64;
+
+  let variance =
+    times.iter().map(|t| (t - mean) * (t - mean)).sum::<f64>() / REPS as f64;
+
+  let mean_ms = (mean * 1000.0).round() as u64;
+  let stddev_ms = (variance.sqrt() * 1000.0).round() as u64;
+
+  println!(
+    "{},{},{},{},{},{}",
+    x_size, y_size, intersection_size, seed, mean_ms, stddev_ms
+  );
 }
