@@ -12,9 +12,9 @@ use rand::{RngCore, SeedableRng};
 const SALT: u64 = 0xb1bc77cc4ae2bd04;
 const REPS: usize = 10;
 
-const X_SIZES: [usize; 5] = [1, 4, 16, 64, 256];
-const Y_SIZES: [usize; 5] = [4, 16, 64, 256, 1024];
-const I_SIZES: [usize; 5] = [1, 4, 16, 64, 256];
+const X_SIZES: [usize; 11] = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
+const Y_SIZES: [usize; 11] = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
+const I_SIZES: [usize; 11] = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
 
 
 fn time_protocol(X: Vec<Element>, Y: Vec<Element>) -> f64 {
