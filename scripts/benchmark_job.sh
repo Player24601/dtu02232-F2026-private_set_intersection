@@ -1,5 +1,5 @@
 #!/bin/bash
-#BSUB -J AC_psi_benchmark[1-10]
+#BSUB -J AC_psi_benchmark[1-364]
 #BSUB -q hpc
 #BSUB -n 1
 #BSUB -R "span[hosts=1]"
